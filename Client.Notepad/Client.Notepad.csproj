@@ -1,0 +1,333 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A9BAFB61-3157-46AA-909A-B512F94E5A64}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Client.Notepad</RootNamespace>
+    <AssemblyName>Client.Notepad</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>发布\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Images\Notepad.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Client.Pub">
+      <HintPath>..\Client.Message\DLL\Client.Pub.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Contract.AutoUpdate, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\Common.Contract.AutoUpdate.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.DataType.AutoUpdate, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\Common.DataType.AutoUpdate.dll</HintPath>
+    </Reference>
+    <Reference Include="Commons.Tools, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\Commons.Tools.dll</HintPath>
+    </Reference>
+    <Reference Include="GZipEncoder, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\GZipEncoder.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="BaseClass.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="NotesManage.cs" />
+    <Compile Include="SkinManage.cs" />
+    <Compile Include="Tools\FileManage.cs" />
+    <Compile Include="Tools\FileTypeRegInfo.cs" />
+    <Compile Include="Tools\FileTypeRegister.cs" />
+    <Compile Include="Tools\RichTextBoxTool.cs" />
+    <Compile Include="Tools\SystemCommon.cs" />
+    <Compile Include="Tools\ToolLogs.cs" />
+    <Compile Include="UcTime.xaml.cs">
+      <DependentUpon>UcTime.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\UcNumbiricTextBox.cs" />
+    <Compile Include="UserControls\UcTimeSpanPicker.cs" />
+    <Compile Include="WindowMessage2.xaml.cs">
+      <DependentUpon>WindowMessage2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowMessage.xaml.cs">
+      <DependentUpon>WindowMessage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowNotepad.xaml.cs">
+      <DependentUpon>WindowNotepad.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowApplicationSettings.cs" />
+    <Compile Include="WindowConvenienceSticker.xaml.cs">
+      <DependentUpon>WindowConvenienceSticker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tools\WindowSettingsM.cs" />
+    <Compile Include="WindowRemind.xaml.cs">
+      <DependentUpon>WindowRemind.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowSet.xaml.cs">
+      <DependentUpon>WindowSet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowShowImage.xaml.cs">
+      <DependentUpon>WindowShowImage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tools\WindowsTool.cs" />
+    <Compile Include="Tools\XMLSerializer.cs" />
+    <Page Include="StyleDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UcTime.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowMain.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WindowMain.xaml.cs">
+      <DependentUpon>WindowMain.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="WindowMessage2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WindowMessage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowNotepad.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowConvenienceSticker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowRemind.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowSet.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowShowImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Resource Include="Images\message.png" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="DLL\Common.Contract.AutoUpdate.dll" />
+    <Content Include="DLL\Common.DataType.AutoUpdate.dll" />
+    <Content Include="DLL\Commons.Tools.dll" />
+    <Content Include="DLL\GZipEncoder.dll" />
+    <Content Include="Fonts\方正瘦金书GBK.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fonts\汉仪平安行简.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fonts\迷你简硬笔行书.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fonts\迷你简细行楷.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fonts\迷你简黄草.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Fonts\QuartzMS.TTF" />
+    <None Include="log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 和 x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Notepad.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\白.png" />
+    <Resource Include="Images\红.png" />
+    <Resource Include="Images\紫.png" />
+    <Resource Include="Images\绿.png" />
+    <Resource Include="Images\蓝.png" />
+    <Resource Include="Images\黄.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\设置.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\添加确认.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\添加序号.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\添加图片.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\添加提醒.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\主页面.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\add_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\delete_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\key_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\lock_32px.png" />
+    <Resource Include="Images\unlock_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\check_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\更新1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\更新.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\确认.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\确认2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <SplashScreen Include="Images\SplashScreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\educational.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,166 @@
+﻿<Window x:Class="Client.Notepad.WindowSet"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="便签设置"
+        Name="UC"
+        WindowStartupLocation="CenterScreen" 
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Topmost="true"
+        Height="440" Width="300">
+    <Grid>
+        <TabControl TabStripPlacement="Top"  HorizontalAlignment="Left" Height="300" Margin="0,0,0,0" VerticalAlignment="Top" Width="300">
+            <TabItem Header="系统设置">
+                <Grid>
+                    <GroupBox Header="便签配置">
+                        <Grid >
+                            <CheckBox Content="添加桌面快捷方式" IsChecked="{Binding ElementName=UC,Path=Boot}" HorizontalAlignment="Left" Margin="30,40,0,0" VerticalAlignment="Top" Width="85"/>
+
+                            <CheckBox Content="开机启动" IsChecked="{Binding ElementName=UC,Path=Boot}" HorizontalAlignment="Left" Margin="30,70,0,0" VerticalAlignment="Top" Width="85"/>
+                            <CheckBox Content="窗口是否在任务栏按钮中显示" IsChecked="{Binding ElementName=UC,Path=SystemSetting.ShowInTaskbar}" HorizontalAlignment="Left" Margin="30,100,0,0" VerticalAlignment="Top" Width="219"/>
+
+
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="不透明度">
+                <Grid  >
+                    <Slider Name="SliderOpacity" Minimum="0.5" Maximum="1" TickFrequency="0.01" SmallChange="0.1" Value="{Binding ElementName=UC,Path=Opacity }" ToolTip="透明设置" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="240" AutoToolTipPlacement="TopLeft" TickPlacement="BottomRight" LargeChange="0.1"/>
+                    <Label Content="注：透明效果如当前页面" Height="25" Foreground ="Red" Margin="10,51,82,197"/>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="标题配置">
+                <Grid  >
+                    <Slider Name="SliderTitleBottom" Minimum="10" Maximum="50" TickFrequency="1" SmallChange="1" Value="{Binding ElementName=GridTitleBottom,Path=Height }" ToolTip="小标题的大小" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="240" AutoToolTipPlacement="TopLeft" TickPlacement="BottomRight"/>
+                    <Slider Name="SliderTitleBottomFontSize" Minimum="10" Maximum="50" TickFrequency="1" SmallChange="1" Value="{Binding ElementName=TextBlock1,Path=FontSize }" ToolTip="小标题上面字体大小" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top" Width="240" AutoToolTipPlacement="TopLeft" TickPlacement="BottomRight"/>
+
+                    <GroupBox Header="效果图" HorizontalAlignment="Left" Height="110" Margin="10,91,0,0" VerticalAlignment="Top" Width="272">
+                        <Grid Margin="0,0,5,2">
+
+                            <!--隐藏时显示的底部题材-->
+                            <Grid Name="GridTitleBottom" Height="20" Background="Wheat" VerticalAlignment="Bottom" Margin="20,0,0,10" >
+                                <TextBlock Name="TextBlock1" Text="事例：自动隐藏后显示的小标题" ToolTip="事例小标题" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,2" Width="220" />
+                            </Grid>
+                            <Label Content="注：效果如上" Height="25" Foreground ="Red" Margin="8,104,84,-43"/>
+
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="字体样式">
+                <Grid>
+
+                    <Label Content="标题字体：" HorizontalAlignment="Left" Margin="2,8,0,0" VerticalAlignment="Top"/>
+                    <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="72,10,0,0"/>
+
+                    <Label Content="大小：" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="201,8,0,0"/>
+                    <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="37" Margin="247,10,0,0"/>
+
+                    <Label Content="内容字体：" HorizontalAlignment="Left" Margin="2,44,0,0" VerticalAlignment="Top"/>
+                    <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="72,46,0,0"/>
+
+                    <Label Content="大小：" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="197,44,0,0"/>
+                    <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="37" Margin="247,46,0,0"/>
+
+                    <GroupBox Header="效果图" HorizontalAlignment="Left" Height="180" Margin="10,91,0,0" VerticalAlignment="Top" Width="272">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="28"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <Grid.Background>
+                                <LinearGradientBrush StartPoint="1,0" EndPoint="1,1" Opacity="1">
+                                    <GradientStop Color="#FDFBB9" Offset="0" />
+                                    <GradientStop Color="#FCFBB4" Offset="1" />
+                                </LinearGradientBrush>
+                            </Grid.Background>
+
+                            <!--顶部标题-->
+                            <Grid Name="GridTitle" Row="0"  >
+                                <Grid.Background>
+                                    <LinearGradientBrush StartPoint="1,0" EndPoint="1,1" Opacity="1">
+                                        <GradientStop Color="{Binding ElementName=UC,Path=SkinM.TitleS}" Offset="0" />
+                                        <GradientStop Color="{Binding ElementName=UC,Path=SkinM.TitleE}" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Grid.Background>
+                                <TextBlock Text="这个是标题" FontSize="16" Margin="30,0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Grid>
+                            <!--内容-->
+                            <Grid Row="1" >
+                                <RichTextBox Name="RichTextBox1" Background="Transparent" VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Left" FontSize="14">
+                                    <FlowDocument  Focusable="True" LineHeight="2">
+                                        <Paragraph>
+                                            <Run Text="这个是标题"/>
+                                        </Paragraph>
+                                        <Paragraph>
+                                            <Run Text="1、我有个小秘密，右击自动隐藏"/>
+                                        </Paragraph>
+                                        <Paragraph>
+                                            <Run Text="2、根据不同的事件，设置不同的颜色"/>
+                                        </Paragraph>
+                                        <Paragraph>
+                                            <Run Text="3、误删的便签可以在回收站中找回"/>
+                                        </Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </Grid>
+
+                        </Grid>
+
+                    </GroupBox>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="更新内容">
+                <Grid>
+                    <Label>
+                        <TextBox Text="    今天心情不太好...."/>
+                    </Label>
+                </Grid>
+            </TabItem>
+            <TabItem Header="关于">
+                <Grid>
+                    <Image Source="Images/SplashScreen.png" Margin="10,20,0,0" Height="110" VerticalAlignment="Top"/>
+
+                    <Label Height="180" Margin="10,0,10,-61" VerticalAlignment="Bottom">
+                        <RichTextBox >
+                            <FlowDocument  Focusable="True" LineHeight="2">
+                                <Paragraph>
+                                    <Run Text="桌面便签"/>
+                                </Paragraph>
+                                <Paragraph>
+                                    <Run Text="V1.1.1.8"/>
+                                </Paragraph>
+                                <Paragraph>
+                                    <Run Text="ypeuee@163.com"/>
+                                </Paragraph>
+                                <Paragraph>
+                                    <Run Text="你的支持就是我最大的动力"/>
+                                </Paragraph>
+                                <Paragraph>
+                                    <Run Text="版权所有2018 ypeuee 保留所有权利。"/>
+                                </Paragraph>
+                            </FlowDocument>
+                        </RichTextBox>
+
+
+                    </Label>
+                </Grid>
+            </TabItem>
+
+
+        </TabControl>
+
+        <CheckBox Name="ChkNotepadAll" IsChecked="False" Content="应用到所有便签" Margin="25,0,0,50" Width="245" Height="15" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+        <Button Name="BtnClose" Content="关闭" Margin="25,0,0,10" Width="75" Height="19" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+        <Button Name="BtnCheck" Content="应用" Margin="195,0,0,10" Height="19" Width="75" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+
+    </Grid>
+
+</Window>
