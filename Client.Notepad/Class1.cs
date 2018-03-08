@@ -16,7 +16,7 @@ namespace Client.Notepad
             bool b1;
             //
             // 摘要:
-            //     指定 ANSI 文本数据格式。
+            //     指定 ANSI 文本数据格式。   123
             //
             // 返回结果:
             //     一个表示 ANSI 文本数据格式的字符串：“Text”。
