@@ -41,6 +41,7 @@ namespace Client.Notepad.Tools
                     Console.WriteLine(exception);
                 }
 
+               //Window.WindowTopmost = Window.Top <= 21;
             };
         }
 
@@ -81,6 +82,11 @@ namespace Client.Notepad.Tools
         #region 放到顶部后，自动隐藏。
 
         /// <summary>
+        /// true隐藏
+        /// </summary>
+        private bool _isHide;
+
+        /// <summary>
         /// 自动显示
         /// 放到顶部后，自动隐藏。
         /// </summary>
@@ -90,6 +96,8 @@ namespace Client.Notepad.Tools
             {
                 gridTitleBottom.Height = Window.TitleBottomHeight;
                 Window.WindowTopmost = true;
+                _isHide = true;//隐藏
+
                 //gridTitleBottom.BringToFront();//将控件放置所有控件最前端  
                 //Canvas.SetZIndex(gridTitleBottom,0);
 
@@ -97,6 +105,7 @@ namespace Client.Notepad.Tools
             else
             {
                 gridTitleBottom.Height = 0;
+                _isHide = false;//不隐藏
             }
 
             //右击自动隐藏
@@ -143,7 +152,7 @@ namespace Client.Notepad.Tools
             if (Window.Top <= 21)
                 Hide(gridTitleBottom);
 
-            Window.WindowTopmost = Window.Top <= 21;
+            //Window.WindowTopmost = Window.Top <= 21;
         }
 
         /// <summary>
