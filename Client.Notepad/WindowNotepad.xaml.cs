@@ -10,12 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Client.Notepad.Tools;
-using Application = System.Windows.Application;
-using Clipboard = System.Windows.Clipboard;
-using KeyEventArgs = System.Windows.Input.KeyEventArgs;
-using MessageBox = System.Windows.MessageBox;
-using MouseEventArgs = System.Windows.Input.MouseEventArgs;
-using RichTextBox = System.Windows.Controls.RichTextBox;
+ 
 
 namespace Client.Notepad
 {
@@ -25,34 +20,19 @@ namespace Client.Notepad
     public partial class WindowNotepad : Window, INotifyPropertyChanged
     {
         #region 构造
-        /// <summary>
-        /// 便签页
-        /// </summary>
-        public WindowNotepad()
-            : this(string.Empty, 0)
-        {
-
-        }
-
+  
         /// <summary>
         /// 便签页
         /// </summary>
         /// <param name="id">D</param>
-        /// <param name="index">索引</param>
-        public WindowNotepad(string id, int index)
+        public WindowNotepad(WindowSettingsM windowSettings)
         {
+
+            _windowSettings = windowSettings;
+      
+
             InitializeComponent();
-            //Canvas.SetZIndex(GridTitleBottom, 1);
-
-            ID = id;
-            Index = index;
-            TitleBottomHeight = GridTitleBottom.Height;
-
-            if (string.IsNullOrEmpty(ID))
-                ID = RichTextBoxTool.PathNewCacheFileName;
-
-            CacheFileName = Path.Combine(RichTextBoxTool.PathCache, ID) + SystemCommon.Extension;
-
+             
             SystemSetting = NotepadManage.SystemSetting;
             SkinM = new SkinManage().GetRandom();
 
@@ -62,9 +42,16 @@ namespace Client.Notepad
 
         #region 属性
 
-        /// <summary>
-        /// 用于取消已经运行的任务
-        /// </summary>
+        private WindowSettingsM _windowSettings;
+
+        public WindowSettingsM WindowSettings
+        {
+            get { return _windowSettings; }
+            set { _windowSettings = value; OnPropertyChanged("WindowSettings"); }
+        }
+         
+
+        // 用于取消已经运行的任务
         private CancellationTokenSource _cancellationTokenSource;
 
 
@@ -83,19 +70,6 @@ namespace Client.Notepad
             }
         }
 
-        /// <summary>
-        /// 隐藏后标题的高
-        /// </summary>
-        public double TitleBottomHeight { get; set; }
-
-        /// <summary>
-        /// ID 
-        /// </summary>
-        public string ID { get; set; }
-        /// <summary>
-        /// 显示的索引
-        /// </summary>
-        public int Index { get; set; }
 
         private string _caption;
         /// <summary>
@@ -126,12 +100,20 @@ namespace Client.Notepad
             }
         }
 
+        private string _cacheFileName;
         /// <summary>
         /// 缓存本地文件的名称
         /// </summary>
-        public string CacheFileName { get; set; }
+        public string CacheFileName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_cacheFileName))
+                    _cacheFileName = Path.Combine(RichTextBoxTool.PathCache, WindowSettings.ID) + SystemCommon.Extension;
 
-        public WindowsTool WindowsTool { get; private set; }
+                return _cacheFileName;
+            }
+        }
 
         private SkinM _skinM;
 
@@ -145,10 +127,7 @@ namespace Client.Notepad
             }
         }
 
-        /// <summary>
-        /// 提醒的时间
-        /// </summary>
-        public DateTime? RemindDateTime { get; set; }
+
 
         #endregion
 
@@ -168,19 +147,22 @@ namespace Client.Notepad
                 RichTextBoxTool.Read(RichTextBox1, CacheFileName);
                 SetCaption();
             }
-            //设置便签
-            NotepadManage.SetWindowNotepad(this);
+           
+            SkinM = new SkinManage().GetSkin(WindowSettings.BackColorName);
+
             //设置提醒
-            if (RemindDateTime != null)
-                SetRemind((DateTime)RemindDateTime);
+            if (WindowSettings.RemindDateTime != null)
+                SetRemind((DateTime)WindowSettings.RemindDateTime);
             //窗体效果设置
             WindowsTool tool = new WindowsTool(this);
             tool.SetTopAutoShow(GridTitleBottom, GridTitle);
             tool.SetNotMax(GridTitle);
             tool.DragMove(GridTitle);
-            WindowsTool = tool;
+            
             RichTextBox1.Focus();
 
+            Left = WindowSettings.Left;
+            Top = WindowSettings.Top;
         }
 
         /// <summary>
@@ -190,15 +172,9 @@ namespace Client.Notepad
         /// <param name="e"></param>
         private void WindowNotepad_OnActivated(object sender, EventArgs e)
         {
-            NotepadManage.SetIndexOrderBy(Index);
+            NotepadManage.SetIndexOrderBy(WindowSettings.Index);
 
             IsShosButton(true);
-
-            //if (NotepadManage.SystemSetting.ShowInTaskbar && WindowsTool != null)
-            //{
-            //    WindowsTool.Show(GridTitleBottom);
-            //    // base.OnMouseMove( new MouseEventArgs(null, 1));
-            //}
         }
 
         /// <summary>
@@ -209,12 +185,6 @@ namespace Client.Notepad
         private void WindowNotepad_OnDeactivated(object sender, EventArgs e)
         {
             IsShosButton(false);
-
-            //if (NotepadManage.SystemSetting.ShowInTaskbar && WindowsTool != null)
-            //{
-            //    WindowsTool.Hide(GridTitleBottom);
-            //    // base.OnMouseMove( new MouseEventArgs(null, 1));
-            //}
         }
 
         /// <summary>
@@ -300,10 +270,8 @@ namespace Client.Notepad
             }
 
             WindowMessage windowMessage = new WindowMessage("删除", "隐藏", "取消");
-            //windowMessage.Button1 = "删除";
-            //windowMessage.Button2 = "隐藏";
-            //windowMessage.Button3 = "取消";
-            windowMessage.Text = "确认删除或隐藏？删除之后可在回收站中查找，隐藏并非删除，系统下次启动还会显示。";
+           
+            windowMessage.Text = "确认删除或隐藏？删除之后可在回收站中查找。";
             windowMessage.Title = "确认删除或隐藏";
             windowMessage.ShowDialog();
             string ret = windowMessage.OperatingButton;
@@ -311,18 +279,22 @@ namespace Client.Notepad
             {
                 case "删除":
 
+                    WindowSettings.NotepadState = NotepadState.Delete;
+
                     Close();
 
-                    if (ShowInTaskbar)
-                        NotepadManage.RemoveNotepad(this);
 
-                    if (File.Exists(CacheFileName))
-                        File.Delete(CacheFileName);
+                    //if (ShowInTaskbar)
+                    //    NotepadManage.RemoveNotepad(this);
 
-                    NotepadManage.WindowListCount--;
+                    //if (File.Exists(CacheFileName))
+                    //    File.Delete(CacheFileName);
+
+                    //NotepadManage.WindowListCount--;
                     break;
 
                 case "隐藏":
+                    WindowSettings.NotepadState = NotepadState.Collapsed;
 
                     Close();
                     break;
@@ -452,26 +424,14 @@ namespace Client.Notepad
                     }
                     else if (Clipboard.ContainsText())
                     {
-
                         e.Handled = true;
-                        // 去格式粘贴
-                        //RichTextBoxTool.Paste(RichTextBox1);
-
-                        //IDataObject dataObj = Clipboard.GetDataObject();
-
+                        
                         string paste = Clipboard.GetText();
-                        //Clipboard.Clear();
                         Clipboard.SetText(paste);
                         RichTextBox1.Paste();
                         Clipboard.Clear();
 
-                        //Clipboard.SetDataObject(dataObj.GetData(DataFormats.Text));
-
-                        //System.String
-                        //    Rich Text Format
-                        //Locale
-                        //    OEMText
-                        //UnicodeText
+                       
                     }
 
 
@@ -480,20 +440,7 @@ namespace Client.Notepad
             }
 
         }
-        private void CommandBinding_Executed()
-        {
-            if (Clipboard.ContainsImage())
-            {
-                ;
-                Clipboard.Clear();
-                return;
-            }
-            //Get Unicode Text
-            string paste = Clipboard.GetText();
-            Clipboard.Clear();
-            Clipboard.SetText(paste);
-            RichTextBox1.Paste();
-        }
+ 
 
         /// <summary>
         /// 系统设置
@@ -581,7 +528,7 @@ namespace Client.Notepad
         /// </summary>
         /// <param name="rtbInfo"></param>
         /// <returns></returns>
-        public bool AddImage(RichTextBox rtbInfo)
+        public bool AddImage(System.Windows.Controls.RichTextBox rtbInfo)
         {
 
             Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
@@ -724,13 +671,13 @@ namespace Client.Notepad
             if (strs.Length == 0)
                 resutStr = "";
 
-            WindowRemind windowRemind = new WindowRemind(resutStr, RemindDateTime, _cancellationTokenSource);
-            windowRemind.RemindDateTime = RemindDateTime;
+            WindowRemind windowRemind = new WindowRemind(resutStr, WindowSettings.RemindDateTime, _cancellationTokenSource);
+            windowRemind.RemindDateTime = WindowSettings.RemindDateTime;
             windowRemind.RemindAction += RemindAction;
 
             windowRemind.ShowDialog();
             if (windowRemind.IsSave)
-                RemindDateTime = windowRemind.RemindDateTime;
+                WindowSettings.RemindDateTime = windowRemind.RemindDateTime;
 
         }
 
@@ -747,13 +694,13 @@ namespace Client.Notepad
                 windowMessage.Title = "陛下！陛下";
                 windowMessage.ShowDialog();
 
-                RemindDateTime = null;
+                WindowSettings.RemindDateTime = null;
                 return;
             }
 
-            RemindDateTime = newDateTime;
+            WindowSettings.RemindDateTime = newDateTime;
             WindowRemind windowRemind = new WindowRemind(Caption, newDateTime, _cancellationTokenSource);
-            windowRemind.RemindDateTime = RemindDateTime;
+            windowRemind.RemindDateTime = WindowSettings.RemindDateTime;
             windowRemind.RemindAction += RemindAction;
             windowRemind.CreateRemind(newDateTime);
 
@@ -806,7 +753,7 @@ namespace Client.Notepad
             if (windowMessage.OperatingButton == "等朕5分钟")
                 SetRemind(DateTime.Now.AddMinutes(5));
             if (windowMessage.OperatingButton == "朕知道了")
-                RemindDateTime = null;
+                WindowSettings.RemindDateTime = null;
         }
 
         #region 改绑定的值自动更新值

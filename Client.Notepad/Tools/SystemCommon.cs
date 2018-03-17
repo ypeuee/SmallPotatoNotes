@@ -90,6 +90,9 @@ namespace Client.Notepad.Tools
         /// </summary>
         public static void ExitSystem()
         {
+            if(IsExitSystem)
+                return;
+
             IsExitSystem = true;
             // Environment.Exit(0);
             System.Windows.Application.Current.Shutdown(0);

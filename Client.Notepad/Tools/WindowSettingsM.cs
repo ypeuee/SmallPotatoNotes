@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Windows;
 
 namespace Client.Notepad.Tools
 {
@@ -28,7 +29,7 @@ namespace Client.Notepad.Tools
         /// 获取或设置一个指示窗口是否具有任务栏按钮的值。这是一个依赖项属性。
         /// </summary>
         public bool ShowInTaskbar { get; set; }
-         
+
     }
 
     /// <summary>
@@ -111,5 +112,37 @@ namespace Client.Notepad.Tools
         /// 提醒的时间
         /// </summary>
         public DateTime? RemindDateTime { get; set; }
+
+        /// <summary>
+        /// true隐藏 false显示
+        /// </summary>
+        public NotepadState NotepadState { get; set; }
+    }
+
+    /// <summary>
+    /// 便签的状态
+    /// </summary>
+    public enum NotepadState: byte
+    {
+        /// <summary>
+        /// 显示元素
+        /// </summary>
+        Visible = 0,
+
+        /// <summary>
+        /// 不显示元素，但为元素保留布局空间。
+        /// </summary>
+        Hidden = 1,
+
+        /// <summary>
+        /// 不显示元素，且不为其保留布局空间。
+        /// </summary>
+        Collapsed = 2,
+
+        /// <summary>
+        /// 删除中，已经到回收站
+        /// </summary>
+        Delete=3
     }
 }
+

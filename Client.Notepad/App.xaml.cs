@@ -14,8 +14,6 @@ namespace Client.Notepad
     {
         public App()
         {
-
-
             #region 程序退出异常处理
 
             var pro = Process.GetCurrentProcess();

@@ -72,6 +72,8 @@ namespace Client.Notepad.Tools
         /// </summary>
         public static void StartMainApplication()
         {
+            SystemCommon.ExitSystem(); // 终止此进程并为基础操作系统提供指定的退出代码。
+
             string currentPath = AppDomain.CurrentDomain.BaseDirectory;
             string iisBinPath = AppDomain.CurrentDomain.RelativeSearchPath;
             string loadPath = string.IsNullOrEmpty(iisBinPath) ? currentPath : iisBinPath;
@@ -96,7 +98,7 @@ namespace Client.Notepad.Tools
                 return;
             }
 
-            SystemCommon.ExitSystem(); // 终止此进程并为基础操作系统提供指定的退出代码。
+          
         }
 
         #endregion

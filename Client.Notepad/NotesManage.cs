@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Client.Notepad.Tools;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using Client.Notepad.Tools;
 
 namespace Client.Notepad
 {
@@ -98,18 +98,31 @@ namespace Client.Notepad
                 MessageBox.Show("便签数据日经达到最大值15个！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            if (WindowList.Exists(t => t.ID == id))
+            if (WindowList.Exists(t => t.WindowSettings.ID == id))
                 return;
 
-            WindowNotepad window;
-            window = new WindowNotepad(id, imdex);
-            window.Show();
+            WindowNotepad window = null;
+            WindowSettingsAllM windowSettingsAll = ReadSetings();
+            if (windowSettingsAll != null)
+            {
+                WindowSettingsM settings = windowSettingsAll.WindowSettingses.Find(t => t.ID == id);
+                if (settings != null)
+                {
+                    window = new WindowNotepad(settings);
+                }
+            };
 
+            if (window == null)
+            {
+                window = new WindowNotepad(GetDefaultWindowSettingsM());
+                SetTop(window, oldNotepad);
+            }
+
+            window.Show();
             WindowList.Add(window);
             ShowWindowListCount++;
             WindowListCount++;
 
-            SetTop(window, oldNotepad);
         }
 
         /// <summary>
@@ -121,12 +134,26 @@ namespace Client.Notepad
             int index = 0;
             foreach (WindowNotepad window in WindowList)
             {
-                if (window.Index > index)
-                    index = window.Index;
+                if (window.WindowSettings.Index > index)
+                    index = window.WindowSettings.Index;
             }
             return index + 1;
         }
 
+        public static WindowSettingsM GetDefaultWindowSettingsM()
+        {
+            WindowSettingsM m = new WindowSettingsM();
+            m.Title = SystemCommon.SystemName;
+            m.ID = RichTextBoxTool.PathNewCacheFileName;
+            m.Width = 250;
+            m.Height = 300;
+            m.TitleBottomFontSize = 14;
+            m.TitleBottomHeight = 14;
+            m.Opacity = 1;
+
+
+            return m;
+        }
 
         #endregion
 
@@ -218,15 +245,15 @@ namespace Client.Notepad
         {
             if (_isActivatedNotepad == false)
             {
-                foreach (WindowNotepad w in WindowList.OrderBy(i => i.Index))
+                foreach (WindowNotepad w in WindowList.OrderBy(i => i.WindowSettings.Index))
                 {
-                    if (w.Index > index)
+                    if (w.WindowSettings.Index > index)
                     {
-                        w.Index--;
+                        w.WindowSettings.Index--;
                     }
-                    else if (w.Index == index)
+                    else if (w.WindowSettings.Index == index)
                     {
-                        w.Index = WindowList.Count;
+                        w.WindowSettings.Index = WindowList.Count;
                     }
                     //w.Caption = w.Index.ToString();
 
@@ -265,7 +292,7 @@ namespace Client.Notepad
         {
             _isActivatedNotepad = true;
             //升序  
-            foreach (WindowNotepad window in WindowList.OrderBy(s => s.Index))
+            foreach (WindowNotepad window in WindowList.OrderBy(s => s.WindowSettings.Index))
             {
                 //window.Topmost = true;
                 window.Activate();
@@ -288,27 +315,15 @@ namespace Client.Notepad
             WindowSettingsAllM windowSettingsAll = new WindowSettingsAllM();
             List<WindowSettingsM> list = new List<WindowSettingsM>();
             windowSettingsAll.WindowSettingses = list;
-            foreach (WindowNotepad window in WindowList)
+            windowSettingsAll.SystemSetting = SystemSetting;
+            foreach (WindowNotepad notepad in WindowList)
             {
-                WindowSettingsM settings = new WindowSettingsM();
-                //settings.BackColor = window.Background;
-                settings.ID = window.ID;
-                settings.Title = window.Title;
-                settings.Left = window.Left;
-                settings.Top = window.Top;
-                settings.Width = window.Width;
-                settings.Height = window.Height;
-                settings.Index = window.Index;
-                settings.TitleBottomHeight = window.TitleBottomHeight;
-                settings.TitleBottomFontSize = window.TxtTitleBottom.FontSize;
-                settings.Opacity = window.Opacity;
-                settings.BackColorName = window.SkinM.Name;
-                settings.RemindDateTime = window.RemindDateTime;
-
-                list.Add(settings);
+                notepad.WindowSettings.Top = notepad.Top;
+                notepad.WindowSettings.Left = notepad.Left;
+                list.Add(notepad.WindowSettings);
             }
 
-            windowSettingsAll.SystemSetting = SystemSetting;
+
             XMLSerializer.Serializer(windowSettingsAll);
         }
 
@@ -330,26 +345,10 @@ namespace Client.Notepad
             if (windowSettingsAll == null) return;
             //if (_systemSetting == null && windowSettingsAll.SystemSetting != null)
             //    _systemSetting = windowSettingsAll.SystemSetting;
-            WindowSettingsM settings = windowSettingsAll.WindowSettingses.Find(t => t.ID == window.ID);
+            WindowSettingsM settings = windowSettingsAll.WindowSettingses.Find(t => t.ID == window.WindowSettings.ID);
             if (settings != null)
             {
-                window.Title = settings.Title;
-                window.Left = settings.Left;
-                window.Top = settings.Top;
-                window.Width = settings.Width;
-                window.Height = settings.Height;
-                window.Index = settings.Index;
-                //window.WindowTopmost = settings.window.WindowTopmost;
-                if (settings.TitleBottomFontSize > 0)
-                    window.TxtTitleBottom.FontSize = settings.TitleBottomFontSize;
-                if (settings.TitleBottomHeight > 0)
-                    window.TitleBottomHeight = settings.TitleBottomHeight;
-                if (settings.Opacity > 0)
-                    window.Opacity = settings.Opacity;
-
-                window.RemindDateTime = settings.RemindDateTime;
-
-                // window.SystemSetting = windowSettingsAll.SystemSetting;
+                window.WindowSettings = settings;
                 window.SkinM = new SkinManage().GetSkin(settings.BackColorName);
             }
 

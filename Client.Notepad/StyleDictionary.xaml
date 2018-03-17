@@ -6,9 +6,20 @@
     <SolidColorBrush x:Key="MainTopMenu.Background1" Color="Green"/>
     <SolidColorBrush x:Key="Button.Static.Border" Color="LightSlateGray"/>
 
+    <!--便签管理颜色-->
+    <SolidColorBrush x:Key="WindowNotesManageLeftMenu.Background" Color="#272727"/>
+    <SolidColorBrush x:Key="WindowNotesManageTopMenu.Background" Color="#F5F5F5"/>
+    <SolidColorBrush x:Key="WindowNotesManageWork.Background" Color="#E9E7E7"/>
+    <SolidColorBrush x:Key="WindowNotesManageButton.Static.Border" Color="#FF707070"/>
+
+    <!--管理页面-->
+    <SolidColorBrush x:Key="View.Background" Color="#EDEAE8"/>
+
+
+
     <!--关闭按钮的样式-->
     <Style x:Key="CloseStyle" TargetType="{x:Type Button}">
-        <Setter Property="Background" Value="{StaticResource MainTopMenu.Background}"/>
+        <Setter Property="Background" Value="{StaticResource WindowNotesManageTopMenu.Background}"/>
         <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="BorderThickness" Value="1"/>
@@ -32,6 +43,89 @@
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
+        </Setter>
+    </Style>
+    <!--最大化按钮样式-->
+    <Style x:Key="MaximizeStyle" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="{StaticResource WindowNotesManageTopMenu.Background}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="grid_content" Background="{TemplateBinding Background}">
+                        <Path HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="Gray" StrokeThickness="1" Data="M0,0 L7,0 L7,7 L0,7Z"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="grid_content" Property="Background" Value="#E3E3E3"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+
+        </Setter>
+    </Style>
+
+    <!--正常大小按钮样式-->
+    <Style x:Key="NormizeStyle" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="{StaticResource WindowNotesManageTopMenu.Background}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="grid_content" Background="{TemplateBinding Background}">
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Path HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="Gray" StrokeThickness="1" Data="M0,0 L7,0 L7,7 L0,7Z"/>
+                            <Path HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="Gray" StrokeThickness="1" Data="M3,-2 L3,-4 L10,-4 L10,3 L8,3"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="grid_content" Property="Background" Value="#E3E3E3"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+
+        </Setter>
+    </Style>
+
+    <!--最小化按钮样式-->
+    <Style x:Key="MinimizeStyle" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="{StaticResource WindowNotesManageTopMenu.Background}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="grid_content" Background="{TemplateBinding Background}">
+                        <Path HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="Gray" StrokeThickness="1" Data="M0,0 L7,0"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="grid_content" Property="Background" Value="#E3E3E3"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+
         </Setter>
     </Style>
 
@@ -87,9 +181,9 @@
                                     <PathGeometry Figures="M 32,35 L 35,35"/>-->
 
                                     <PathGeometry Figures="M 12,30 A 6,10 0 1 1 18,30 L 30,40 L 30,45 L 0,45 L 0,40Z" />
-                                    
-                           
-                                    
+
+
+
                                 </GeometryGroup>
                             </Path.Data>
                         </Path>

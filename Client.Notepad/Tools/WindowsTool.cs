@@ -94,7 +94,7 @@ namespace Client.Notepad.Tools
         {
             if (Window.Top < 0)
             {
-                gridTitleBottom.Height = Window.TitleBottomHeight;
+                gridTitleBottom.Height = Window.WindowSettings.TitleBottomHeight;
                 Window.WindowTopmost = true;
                 _isHide = true;//隐藏
 
@@ -161,15 +161,15 @@ namespace Client.Notepad.Tools
         /// <param name="gridTitleBottom"></param>
         public void Hide(Grid gridTitleBottom)
         {
-            if (Window.Top >= -Window.ActualHeight + Window.TitleBottomHeight)
+            if (Window.Top >= -Window.ActualHeight + Window.WindowSettings.TitleBottomHeight)
             {
-                gridTitleBottom.Height = Window.TitleBottomHeight;
+                gridTitleBottom.Height = Window.WindowSettings.TitleBottomHeight;
 
                 if (!Window.WindowTopmost)
                     Window.WindowTopmost = true;
 
 
-                while (Window.Top >= -Window.ActualHeight + Window.TitleBottomHeight)
+                while (Window.Top >= -Window.ActualHeight + Window.WindowSettings.TitleBottomHeight)
                 {
                     Window.Top--;
                 }

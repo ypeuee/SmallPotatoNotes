@@ -21,7 +21,7 @@ namespace Client.Notepad
         {
             WindowNotepad = windowNotepad;
             Opacity = windowNotepad.Opacity;
-            GridTitleBottom.Height = windowNotepad.TitleBottomHeight;
+            GridTitleBottom.Height = windowNotepad.WindowSettings. TitleBottomHeight;
             TextBlock1.FontSize = windowNotepad.TxtTitleBottom.FontSize;
             Boot = AutoBoot.GetAutoBootStatu(SystemCommon.SystemName);
 
@@ -53,7 +53,7 @@ namespace Client.Notepad
                     if (ChkNotepadAll.IsChecked == true || notepad.Equals(WindowNotepad))
                     {
                         notepad.Opacity = SliderOpacity.Value;
-                        notepad.TitleBottomHeight = SliderTitleBottom.Value;
+                        notepad.WindowSettings.TitleBottomHeight = SliderTitleBottom.Value;
                         notepad.TxtTitleBottom.FontSize = SliderTitleBottomFontSize.Value;
 
                         if (notepad.Top < 0)
@@ -61,9 +61,9 @@ namespace Client.Notepad
                             notepad.GridTitleBottom.Height = SliderTitleBottom.Value;
 
 
-                            while ((Int64)notepad.Top != (Int64)(-notepad.ActualHeight + notepad.TitleBottomHeight))
+                            while ((Int64)notepad.Top != (Int64)(-notepad.ActualHeight + notepad.WindowSettings.TitleBottomHeight))
                             {
-                                notepad.Top += notepad.Top >= -notepad.ActualHeight + notepad.TitleBottomHeight ? -1 : 1;
+                                notepad.Top += notepad.Top >= -notepad.ActualHeight + notepad.WindowSettings.TitleBottomHeight ? -1 : 1;
                             }
                         }
                     }

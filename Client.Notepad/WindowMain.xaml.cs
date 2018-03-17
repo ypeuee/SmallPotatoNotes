@@ -17,7 +17,7 @@ namespace Client.Notepad
             _settings = new WindowApplicationSettings();
 
         }
-      
+
         private WindowApplicationSettings _settings;
 
         #region 事件
@@ -31,9 +31,9 @@ namespace Client.Notepad
         {
             //加载设置
             _settings.Reload();
-           Title = _settings.Title;
-           Left = _settings.WinLocation.X;
-           Top = _settings.WinLocation.Y;
+            Title = _settings.Title;
+            Left = _settings.WinLocation.X;
+            Top = _settings.WinLocation.Y;
 
             RichTextBoxTool.AddExtenstion();
             NotepadManage.OpenAllNotepad();
@@ -48,6 +48,8 @@ namespace Client.Notepad
             ShowInTaskbar = !NotepadManage.SystemSetting.ShowInTaskbar;
             //打开导入的文件
             NotepadManage.OpenImputFileTask();
+
+            new WindowNotesManage().Show();
         }
 
         /// <summary>
@@ -64,11 +66,11 @@ namespace Client.Notepad
 
             //保存所有便签设置--已经在APP中设置
             NotepadManage.SaveSetings();
-             
+
             //关闭一个应用程序。
             SystemCommon.ExitSystem();
 
-          
+
         }
 
         /// <summary>

@@ -226,7 +226,13 @@ namespace Client.Notepad.Tools
                 if (f.Name == WindowSetingFileName)
                     continue;
                 if (f.Extension == string.Empty)
+                {
+                    if (File.Exists(f.FullName + SystemCommon.Extension))
+                    {
+                        continue;
+                    }
                     f.MoveTo(Path.Combine(f.FullName + SystemCommon.Extension));
+                }
             }
         }
 

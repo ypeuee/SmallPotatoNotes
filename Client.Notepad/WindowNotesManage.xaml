@@ -1,0 +1,40 @@
+﻿<Window x:Class="Client.Notepad.WindowNotesManage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client.Notepad"
+        xmlns:userControls="clr-namespace:FineEx.Cloud.ClientApp.UserControls"
+        mc:Ignorable="d"
+        Name="Uc"
+        WindowStyle="None" ResizeMode = "CanMinimize"
+        AllowsTransparency="True" ShowInTaskbar="True" WindowStartupLocation="CenterScreen" 
+        Background="#F5F5F5"
+        Title="MainWindow" Height="590" Width="852">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+        
+            <userControls:UcMainMenu x:Name="UcMainMenu1" MouseDownEvent="UcMainMenu1_OnMouseDownEvent" />
+        </Grid>
+        <Grid Grid.Column="1" Background="#F5F5F5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Row="0">
+                <userControls:UcTopMenu x:Name="UcTopMenu1"/>
+            </Grid>
+            <Grid Name="GridWork" Row="1">
+ 
+             
+            </Grid>
+
+
+        </Grid>
+        
+    </Grid>
+</Window>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -12,17 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Client.Notepad
+namespace FineEx.Cloud.ClientApp.UserControls
 {
     /// <summary>
-    /// UcTime.xaml 的交互逻辑
+    /// UcMonitor.xaml 的交互逻辑
     /// </summary>
-    public partial class UcTime : UserControl
+    public partial class UcMonitor : UserControl
     {
-        public UcTime()
+        public UcMonitor()
         {
             InitializeComponent();
         }
-
     }
 }
