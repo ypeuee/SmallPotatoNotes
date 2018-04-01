@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Client.Notepad.Tools;
 using Client.Notepad.UserControls;
 using FineEx.Cloud.ClientApp.UserControls;
 
@@ -23,6 +24,9 @@ namespace Client.Notepad
         public WindowNotesManage()
         {
             InitializeComponent();
+            //移动
+            MouseLeftButtonDown += (sender, e) => { DragMove(); };
+
         }
 
         private UcNotepadGroups _ucNotepadGroups;

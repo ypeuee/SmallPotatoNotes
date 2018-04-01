@@ -91,6 +91,11 @@
                     <Image Source="Images/设置.png" Stretch="Fill" Width="20" Height="20"/>
                 </MenuItem.Icon>
             </MenuItem>
+            <MenuItem Header="管理" Tag="管理" Click="MenuItemManage_OnClick">
+                <MenuItem.Icon>
+                    <Image Source="Images/设置.png" Stretch="Fill" Width="20" Height="20"/>
+                </MenuItem.Icon>
+            </MenuItem>
             <MenuItem Header="检查更新" Tag="检查更新" Click="MenuItemUpdate_OnClick">
                 <MenuItem.Icon>
                     <Image Source="Images/更新.png" Stretch="Fill" Width="20" Height="20"/>

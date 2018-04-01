@@ -10,7 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Client.Notepad.Tools;
- 
+
 
 namespace Client.Notepad
 {
@@ -20,7 +20,7 @@ namespace Client.Notepad
     public partial class WindowNotepad : Window, INotifyPropertyChanged
     {
         #region 构造
-  
+
         /// <summary>
         /// 便签页
         /// </summary>
@@ -29,12 +29,13 @@ namespace Client.Notepad
         {
 
             _windowSettings = windowSettings;
-      
+
 
             InitializeComponent();
-             
+
             SystemSetting = NotepadManage.SystemSetting;
-            SkinM = new SkinManage().GetRandom();
+            if (_windowSettings == null || string.IsNullOrEmpty(_windowSettings.BackColorName))
+                SkinM = new SkinManage().GetRandom();
 
         }
 
@@ -49,7 +50,7 @@ namespace Client.Notepad
             get { return _windowSettings; }
             set { _windowSettings = value; OnPropertyChanged("WindowSettings"); }
         }
-         
+
 
         // 用于取消已经运行的任务
         private CancellationTokenSource _cancellationTokenSource;
@@ -147,7 +148,7 @@ namespace Client.Notepad
                 RichTextBoxTool.Read(RichTextBox1, CacheFileName);
                 SetCaption();
             }
-           
+
             SkinM = new SkinManage().GetSkin(WindowSettings.BackColorName);
 
             //设置提醒
@@ -158,8 +159,12 @@ namespace Client.Notepad
             tool.SetTopAutoShow(GridTitleBottom, GridTitle);
             tool.SetNotMax(GridTitle);
             tool.DragMove(GridTitle);
-            
+
             RichTextBox1.Focus();
+
+            Visibility = WindowSettings.NotepadState == NotepadState.Visible
+                ? Visibility.Visible
+                : Visibility.Collapsed;
 
             Left = WindowSettings.Left;
             Top = WindowSettings.Top;
@@ -194,6 +199,7 @@ namespace Client.Notepad
         /// <param name="e"></param>
         private void Window1_OnClosing(object sender, CancelEventArgs e)
         {
+            //Application.Current.MainWindow
             try
             {
                 RichTextBoxTool.Writer(RichTextBox1, CacheFileName);
@@ -270,7 +276,7 @@ namespace Client.Notepad
             }
 
             WindowMessage windowMessage = new WindowMessage("删除", "隐藏", "取消");
-           
+
             windowMessage.Text = "确认删除或隐藏？删除之后可在回收站中查找。";
             windowMessage.Title = "确认删除或隐藏";
             windowMessage.ShowDialog();
@@ -425,13 +431,13 @@ namespace Client.Notepad
                     else if (Clipboard.ContainsText())
                     {
                         e.Handled = true;
-                        
+
                         string paste = Clipboard.GetText();
                         Clipboard.SetText(paste);
                         RichTextBox1.Paste();
                         Clipboard.Clear();
 
-                       
+
                     }
 
 
@@ -440,8 +446,18 @@ namespace Client.Notepad
             }
 
         }
- 
+        
 
+        /// <summary>
+        /// 系统管理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemManage_OnClick(object sender, RoutedEventArgs e)
+        {
+            new WindowNotesManage().ShowDialog();
+        }     
+        
         /// <summary>
         /// 系统设置
         /// </summary>

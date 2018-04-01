@@ -41,20 +41,31 @@
                         </StackPanel>
                     </ListBoxItem>
                 </ListBox>
-                
+
             </WrapPanel >
         </Grid>
         <Grid Column="1">
-            <ListBox Name="ListBox1" Background="#EDEAE8" Width="400" Margin="70,70,70,45">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Label Height="35" Content="{Binding}"></Label>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+            <WrapPanel >
+                <Grid Height="60" VerticalAlignment="Center" HorizontalAlignment="Center" Width="538"  >
+                    <Button Name="BtnVisible" Height="25" Width="80" Content="显示" Foreground="#FF14D212" Background="#EDEAE8" Margin="10,22,448,13" Click="BtnVisible_OnClick"/>
+                    <Button Name="BtnDelete" Height="25" Width="80" Content="删除" Foreground="#FF14D212" Background="#EDEAE8" Margin="209,22,249,13" Click="BtnDelete_OnClick"/>
+                    <Button Name="BtnCollapsed" Height="25" Width="80" Content="隐藏" Foreground="#FF14D212" Background="#EDEAE8" Margin="109,22,349,13" Click="BtnCollapsed_OnClick"/>
+                </Grid>
 
-           
-            
+                <ListBox Name="ListBox1" Background="#EDEAE8" Width="537" Height="500">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <Label Height="35" Content="{Binding Path=Text}"></Label>
+
+                            </WrapPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+            </WrapPanel >
+
+
         </Grid>
     </Grid>
 </UserControl>

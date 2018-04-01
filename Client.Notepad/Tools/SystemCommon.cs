@@ -95,7 +95,8 @@ namespace Client.Notepad.Tools
 
             IsExitSystem = true;
             // Environment.Exit(0);
-            System.Windows.Application.Current.Shutdown(0);
+            //System.Windows.Application.Current.Shutdown(0);
+            System.Windows.Application.Current.Shutdown();
         }
 
 

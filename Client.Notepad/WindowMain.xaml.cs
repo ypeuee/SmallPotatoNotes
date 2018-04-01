@@ -49,7 +49,7 @@ namespace Client.Notepad
             //打开导入的文件
             NotepadManage.OpenImputFileTask();
 
-            new WindowNotesManage().Show();
+           
         }
 
         /// <summary>
@@ -69,8 +69,6 @@ namespace Client.Notepad
 
             //关闭一个应用程序。
             SystemCommon.ExitSystem();
-
-
         }
 
         /// <summary>
