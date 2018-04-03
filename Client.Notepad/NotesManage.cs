@@ -78,51 +78,69 @@ namespace Client.Notepad
         /// <summary>
         /// 创建便签
         /// </summary>
-        /// <param name="id">缓存路径</param>
+        /// <param name="path">缓存路径</param>
         /// <param name="imdex"></param>
-        public static void CreateNotepad(string id, int imdex)
+        public static void CreateNotepad(string path, int imdex)
         {
-            CreateNotepad(id, imdex, null);
+            CreateNotepad(path, imdex, null);
         }
 
         /// <summary>
         /// 创建便签
         /// </summary>
-        /// <param name="id">缓存路径</param>
+        /// <param name="path">缓存路径</param>
         /// <param name="imdex"></param>
         /// <param name="oldNotepad"></param>
-        public static void CreateNotepad(string id, int imdex, WindowNotepad oldNotepad)
+        public static void CreateNotepad(string path, int imdex, WindowNotepad oldNotepad)
         {
             if (WindowList.Count >= 15)
             {
                 MessageBox.Show("便签数据日经达到最大值15个！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            if (WindowList.Exists(t => t.WindowSettings.ID == id))
+            if (WindowList.Exists(t => t.CacheFileName == path))
                 return;
 
             WindowNotepad window = null;
             WindowSettingsAllM windowSettingsAll = ReadSetings();
-            if (windowSettingsAll != null)
+            string id = Path.GetFileNameWithoutExtension(path);
+            WindowSettingsM settings = windowSettingsAll?.WindowSettingses.Find(t => t.ID == id);
+            if (settings == null)
             {
-                WindowSettingsM settings = windowSettingsAll.WindowSettingses.Find(t => t.ID == id);
-                if (settings != null)
-                {
-                    window = new WindowNotepad(settings);
-                }
-            };
-
-            if (window == null)
-            {
-                window = new WindowNotepad(GetDefaultWindowSettingsM());
-                SetTop(window, oldNotepad);
+                settings = GetDefaultWindowSettingsM(id);
             }
 
+            window = new WindowNotepad(settings);
+            SetTop(window, oldNotepad);
             window.Show();
             WindowList.Add(window);
             ShowWindowListCount++;
             WindowListCount++;
+        }
 
+        /// <summary>
+        /// 创建便签
+        /// </summary>
+        /// <param name="path">缓存路径</param>
+        /// <param name="settingses"></param>
+        public static void CreateNotepad(string path, List<WindowSettingsM> settingses)
+        {
+            if (WindowList.Exists(t => t.CacheFileName == path))
+                return;
+
+            WindowNotepad window = null;
+
+            string id = Path.GetFileNameWithoutExtension(path);
+           
+            WindowSettingsM settings = settingses.Find(t => t.ID == id);
+            if (settings == null)
+                settings = GetDefaultWindowSettingsM(id);
+
+            window = new WindowNotepad(settings);
+            window.Show();
+            WindowList.Add(window);
+            ShowWindowListCount++;
+            WindowListCount++;
         }
 
         /// <summary>
@@ -140,11 +158,14 @@ namespace Client.Notepad
             return index + 1;
         }
 
-        public static WindowSettingsM GetDefaultWindowSettingsM()
+        public static WindowSettingsM GetDefaultWindowSettingsM(string id)
         {
             WindowSettingsM m = new WindowSettingsM();
             m.Title = SystemCommon.SystemName;
-            m.ID = RichTextBoxTool.PathNewCacheFileName;
+            if (string.IsNullOrEmpty(id))
+                m.ID = RichTextBoxTool.PathNewCacheFileName;
+            else
+                m.ID = Path.GetFileNameWithoutExtension(id);
             m.Width = 250;
             m.Height = 300;
             m.TitleBottomFontSize = 14;
@@ -186,6 +207,8 @@ namespace Client.Notepad
             ContinuousCheck(newNotepad);
         }
 
+
+
         /// <summary>
         /// 位置检测 新位置是否已经有便笺
         /// </summary>
@@ -224,8 +247,6 @@ namespace Client.Notepad
             {
                 WindowList.Remove(window);
             }
-
-
         }
 
         #endregion
@@ -267,7 +288,7 @@ namespace Client.Notepad
         public static void OpenAllNotepad()
         {
             _isActivatedNotepad = true;
-            List<string> files = new List<string>(Directory.GetFiles(RichTextBoxTool.PathCache, SystemCommon.SearchExtensionName));
+            List<string> files = new List<string>(Directory.GetFiles(RichTextBoxTool.PathCacheVisible, SystemCommon.SearchExtensionName));
 
             //如果没有便签，则打开一个空的。
             if (files.Count == 0)
@@ -276,9 +297,11 @@ namespace Client.Notepad
                 return;
             }
 
+            WindowSettingsAllM windowSettingsAll = ReadSetings();
+
             foreach (string s in files)
             {
-                CreateNotepad(Path.GetFileNameWithoutExtension(s), 0);
+                CreateNotepad(Path.GetFileNameWithoutExtension(s), windowSettingsAll?.WindowSettingses);
             }
             _isActivatedNotepad = false;
 
@@ -310,19 +333,38 @@ namespace Client.Notepad
         /// <summary>
         /// 保存所有便签设置
         /// </summary>
-        public static void SaveSetings()
+        public static void SaveSetings(WindowNotepad windowNotepad = null)
         {
-            WindowSettingsAllM windowSettingsAll = new WindowSettingsAllM();
-            List<WindowSettingsM> list = new List<WindowSettingsM>();
-            windowSettingsAll.WindowSettingses = list;
+            WindowSettingsAllM windowSettingsAll = ReadSetings();
+            if (windowSettingsAll == null)
+                windowSettingsAll = new WindowSettingsAllM();
+            if (windowSettingsAll.WindowSettingses == null)
+                windowSettingsAll.WindowSettingses = new List<WindowSettingsM>();
+
             windowSettingsAll.SystemSetting = SystemSetting;
-            foreach (WindowNotepad notepad in WindowList)
+
+            List<WindowNotepad> list;
+            if (windowNotepad != null)
+                list = WindowList.FindAll(m => m.WindowSettings.ID == windowNotepad.WindowSettings.ID);
+            else
+                list = WindowList;
+            foreach (WindowNotepad notepad in list)
             {
                 notepad.WindowSettings.Top = notepad.Top;
                 notepad.WindowSettings.Left = notepad.Left;
-                list.Add(notepad.WindowSettings);
-            }
+                notepad.WindowSettings.BackColorName = notepad.SkinM.Name;
+                notepad.WindowSettings.Width = notepad.Width;
+                notepad.WindowSettings.Height = notepad.Height;
 
+                //替换为新设置
+                int index = windowSettingsAll.WindowSettingses.FindIndex(t => t.ID == notepad.WindowSettings.ID);
+                if (index > 0)
+                {
+                    windowSettingsAll.WindowSettingses.RemoveAt(index);
+                }
+
+                windowSettingsAll.WindowSettingses.Add(notepad.WindowSettings);
+            }
 
             XMLSerializer.Serializer(windowSettingsAll);
         }

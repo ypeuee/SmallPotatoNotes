@@ -20,9 +20,9 @@ namespace FineEx.Cloud.ClientApp.UserControls
         /// </summary>
         About = 1,
         /// <summary>
-        /// 电子秤
+        /// 管理
         /// </summary>
-        WeightMeter = 2,
+        Manage = 2,
         /// <summary>
         /// 监控
         /// </summary>

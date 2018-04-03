@@ -24,9 +24,13 @@ namespace Client.Notepad
         public WindowNotesManage()
         {
             InitializeComponent();
+
+            UcTopMenu1.OperatWindow = this;
+
             //移动
             MouseLeftButtonDown += (sender, e) => { DragMove(); };
 
+            UcMainMenu1_OnMouseDownEvent(null, null, EnumMainMenu.Manage);
         }
 
         private UcNotepadGroups _ucNotepadGroups;
@@ -59,8 +63,8 @@ namespace Client.Notepad
                 //            _ucWeightMeter = new UcWeightMeter();
                 //        ShowView(_ucWeightMeter);
                 //        break;
-                //视频
-                case EnumMainMenu.Video:
+                //管理
+                case EnumMainMenu.Manage:
                     if (_ucNotepadGroups == null)
                         _ucNotepadGroups = new UcNotepadGroups();
                     ShowView(_ucNotepadGroups);

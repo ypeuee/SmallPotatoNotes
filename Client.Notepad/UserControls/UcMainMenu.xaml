@@ -34,8 +34,8 @@
         <!--<Image Source="../Images/头像.png" Margin="8,10,8,0" Height="33" VerticalAlignment="Top" Cursor="Hand" ToolTip="头像" MouseDown="Image_MouseDown"/>-->
 
         <Grid Width="30" Margin="16,60,16,0">
-            <Image Source="../Images/电子秤1.png" Width="25" Margin="0,10,0,0"  VerticalAlignment="Top" Cursor="Hand" ToolTip="电子秤" MouseDown="Image_MouseDown"/>
-            <Image Source="../Images/视频1.png" Width="25" Margin="0,60,0,0" VerticalAlignment="Top" Cursor="Hand" ToolTip="视频" MouseDown="Image_MouseDown"/>
+            <Image Source="../Images/管理1.png" Width="25" Margin="0,10,0,0"  VerticalAlignment="Top" Cursor="Hand" ToolTip="管理" MouseDown="Image_MouseDown"/>
+            <!--<Image Source="../Images/视频1.png" Width="25" Margin="0,60,0,0" VerticalAlignment="Top" Cursor="Hand" ToolTip="视频" MouseDown="Image_MouseDown"/>-->
 
             <!--<Image Source="../Images/打印1.png" Width="25" Margin="0,60,0,0" VerticalAlignment="Top" Cursor="Hand" ToolTip="打印" MouseDown="Image_MouseDown" />-->
             <!--<Image Source="../Images/视频1.png" Width="25" Margin="0,110,0,0" VerticalAlignment="Top" Cursor="Hand" ToolTip="视频" MouseDown="Image_MouseDown"/>-->

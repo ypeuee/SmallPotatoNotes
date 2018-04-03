@@ -110,7 +110,7 @@ namespace Client.Notepad
             get
             {
                 if (string.IsNullOrEmpty(_cacheFileName))
-                    _cacheFileName = Path.Combine(RichTextBoxTool.PathCache, WindowSettings.ID) + SystemCommon.Extension;
+                    _cacheFileName = Path.Combine(RichTextBoxTool.PathCacheVisible, WindowSettings.ID) + SystemCommon.Extension;
 
                 return _cacheFileName;
             }
@@ -162,12 +162,13 @@ namespace Client.Notepad
 
             RichTextBox1.Focus();
 
-            Visibility = WindowSettings.NotepadState == NotepadState.Visible
-                ? Visibility.Visible
-                : Visibility.Collapsed;
-
-            Left = WindowSettings.Left;
-            Top = WindowSettings.Top;
+            //Visibility = WindowSettings.NotepadState == NotepadState.Visible
+            //    ? Visibility.Visible
+            //    : Visibility.Collapsed;
+            if (WindowSettings.Left != 0)
+                Left = WindowSettings.Left;
+            if (WindowSettings.Left != 0)
+                Top = WindowSettings.Top;
         }
 
         /// <summary>
@@ -199,6 +200,9 @@ namespace Client.Notepad
         /// <param name="e"></param>
         private void Window1_OnClosing(object sender, CancelEventArgs e)
         {
+            //保存所有便签设置
+            NotepadManage.SaveSetings(this);
+
             //Application.Current.MainWindow
             try
             {
@@ -206,7 +210,7 @@ namespace Client.Notepad
 
                 //如果ShowInTaskbar设置为true，则关闭时先关闭子窗体
                 //如果设置为false，则先关闭主窗体
-                if (!ShowInTaskbar)
+                //if (!ShowInTaskbar)
                     NotepadManage.RemoveNotepad(this);
 
                 NotepadManage.ShowWindowListCount--;
@@ -266,9 +270,6 @@ namespace Client.Notepad
             {
                 Close();
 
-                if (ShowInTaskbar)
-                    NotepadManage.RemoveNotepad(this);
-
                 if (File.Exists(CacheFileName))
                     File.Delete(CacheFileName);
 
@@ -280,29 +281,27 @@ namespace Client.Notepad
             windowMessage.Text = "确认删除或隐藏？删除之后可在回收站中查找。";
             windowMessage.Title = "确认删除或隐藏";
             windowMessage.ShowDialog();
+
+            //保存所有便签设置
+            NotepadManage.SaveSetings(this);
             string ret = windowMessage.OperatingButton;
             switch (ret)
             {
                 case "删除":
 
-                    WindowSettings.NotepadState = NotepadState.Delete;
-
                     Close();
 
+                    //移动
+                    File.Move(CacheFileName, RichTextBoxTool.PathCacheDelete+ Path.GetFileName(CacheFileName));
 
-                    //if (ShowInTaskbar)
-                    //    NotepadManage.RemoveNotepad(this);
-
-                    //if (File.Exists(CacheFileName))
-                    //    File.Delete(CacheFileName);
-
-                    //NotepadManage.WindowListCount--;
                     break;
-
                 case "隐藏":
-                    WindowSettings.NotepadState = NotepadState.Collapsed;
 
                     Close();
+
+                    //移动
+                    File.Move(CacheFileName, RichTextBoxTool.PathCacheHidden + Path.GetFileName(CacheFileName));
+
                     break;
                 case "取消":
                     return;
@@ -446,7 +445,7 @@ namespace Client.Notepad
             }
 
         }
-        
+
 
         /// <summary>
         /// 系统管理
@@ -456,8 +455,8 @@ namespace Client.Notepad
         private void MenuItemManage_OnClick(object sender, RoutedEventArgs e)
         {
             new WindowNotesManage().ShowDialog();
-        }     
-        
+        }
+
         /// <summary>
         /// 系统设置
         /// </summary>

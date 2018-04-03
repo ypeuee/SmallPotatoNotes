@@ -22,6 +22,7 @@ namespace Client.Notepad.UserControls
 
         }
         NotepadState state;
+        private string _selectedPath;
         /// <summary>
         /// 动态加载选择项
         /// </summary>
@@ -35,19 +36,23 @@ namespace Client.Notepad.UserControls
             {
                 case "显示中便签":
                     state = NotepadState.Visible;
+                    _selectedPath = RichTextBoxTool.PathCacheVisible;
                     BtnCollapsed.IsEnabled = true;
                     break;
                 case "已隐藏便签":
-                    state = NotepadState.Collapsed;
+                    state = NotepadState.Hidden;
+                    _selectedPath = RichTextBoxTool.PathCacheHidden;
                     BtnVisible.IsEnabled = true;
                     break;
                 case "已删除便签":
                     state = NotepadState.Delete;
+                    _selectedPath = RichTextBoxTool.PathCacheDelete;
                     BtnVisible.IsEnabled = true;
                     BtnCollapsed.IsEnabled = true;
                     break;
                 default:
                     state = NotepadState.Visible;
+                    _selectedPath = RichTextBoxTool.PathCacheVisible;
                     break;
             }
 
@@ -60,10 +65,10 @@ namespace Client.Notepad.UserControls
         private void BingListBox1()
         {
             List<ListBoxItemM> list = new List<ListBoxItemM>();
-
-            foreach (var m in NotepadManage.WindowList.FindAll(m => m.WindowSettings.NotepadState == state))
+            List<string> files = new List<string>(Directory.GetFiles(_selectedPath, SystemCommon.SearchExtensionName));
+            foreach (string f in files)
             {
-                list.Add(new ListBoxItemM() { ID = m.CacheFileName, Text = RichTextBoxTool.StringFromRichTextBox(m.RichTextBox1) });
+                list.Add(new ListBoxItemM() { Name =Path.GetFileName( f), Text = RichTextBoxTool.StringFromFlowDocument(f) });
             }
 
             ListBox1.ItemsSource = list;
@@ -87,11 +92,9 @@ namespace Client.Notepad.UserControls
                 return;
             }
             var model = (ListBoxItemM)ListBox1.SelectedItem;
-            var v = NotepadManage.WindowList.Find(m => m.CacheFileName == model.ID);
-            v.WindowSettings.NotepadState = notepadState;
-            v.Visibility = notepadState == NotepadState.Visible
-                ? Visibility.Visible
-                : Visibility.Collapsed;
+
+            NotepadManage.CreateNotepad();
+
 
             //  ListBox1.Items.Remove(ListBox1.SelectedItem);
             BingListBox1();
@@ -104,7 +107,19 @@ namespace Client.Notepad.UserControls
         /// <param name="e"></param>
         private void BtnVisible_OnClick(object sender, RoutedEventArgs e)
         {
-            SetNotePad(NotepadState.Visible);
+            if (ListBox1.SelectedItem == null)
+            {
+                return;
+            }
+            var model = (ListBoxItemM)ListBox1.SelectedItem;
+
+            //移动到显示文件夹
+            File.Move(_selectedPath+  model.Name, RichTextBoxTool.PathCacheVisible+model.Name);
+
+            //打开
+            NotepadManage.CreateNotepad(RichTextBoxTool.PathCacheVisible + model.Name, 0);
+
+            BingListBox1();
         }
 
         /// <summary>
@@ -114,28 +129,50 @@ namespace Client.Notepad.UserControls
         /// <param name="e"></param>
         private void BtnDelete_OnClick(object sender, RoutedEventArgs e)
         {
+            //保存所有便签设置
+            NotepadManage.SaveSetings();
+
+
             if (ListBox1.SelectedItem == null)
             {
                 return;
             }
             var model = (ListBoxItemM)ListBox1.SelectedItem;
-            var v = NotepadManage.WindowList.Find(m => m.CacheFileName == model.ID);
-            if (v.WindowSettings.NotepadState == NotepadState.Delete)
+           
+            //如果已经删除状态，则直接物理删除
+            if (state == NotepadState.Delete)
             {
-                v.Close();
-
-                NotepadManage.RemoveNotepad(v);
-
-                if (File.Exists(v.CacheFileName))
-                    File.Delete(v.CacheFileName);
+              File.Delete(RichTextBoxTool.PathCacheDelete + model.Name);
 
                 BingListBox1();
-                //NotepadManage.WindowListCount--;
+             
                 return;
             }
 
+            //逻辑删除
 
-            SetNotePad(NotepadState.Delete);
+            //如果现状态为隐藏
+            if (state == NotepadState.Hidden)
+            {
+                //移动
+                File.Move(_selectedPath + model.Name, RichTextBoxTool.PathCacheDelete + model.Name);
+
+                BingListBox1();
+                return;
+            }
+
+            //如果现状态为显示，则先关闭。
+            if (state == NotepadState.Visible)
+            {
+                var v = NotepadManage.WindowList.Find(m => m.CacheFileName == RichTextBoxTool.PathCacheVisible + model.Name);
+                v?.Close();
+
+                //移动
+                File.Move(_selectedPath + model.Name, RichTextBoxTool.PathCacheDelete + model.Name);
+
+                BingListBox1();
+                return;
+            }
         }
 
         /// <summary>
@@ -145,14 +182,47 @@ namespace Client.Notepad.UserControls
         /// <param name="e"></param>
         private void BtnCollapsed_OnClick(object sender, RoutedEventArgs e)
         {
-            SetNotePad(NotepadState.Collapsed);
+            //保存所有便签设置
+            NotepadManage.SaveSetings();
+
+
+            if (ListBox1.SelectedItem == null)
+            {
+                return;
+            }
+            var model = (ListBoxItemM)ListBox1.SelectedItem;
+
+            //如果现状态为显示
+            if (state == NotepadState.Visible)
+            {
+                var v = NotepadManage.WindowList.Find(m => m.CacheFileName == RichTextBoxTool.PathCacheVisible + model.Name);
+                v?.Close();
+
+                //移动
+                File.Move(_selectedPath + model.Name, RichTextBoxTool.PathCacheHidden + model.Name);
+
+                BingListBox1();
+            }
+
+            //如果已经删除状态，则直接物理删除
+            if (state == NotepadState.Delete)
+            {
+                //移动
+                File.Move(_selectedPath + model.Name, RichTextBoxTool.PathCacheHidden + model.Name);
+
+                BingListBox1();
+                return;
+            }
+             
         }
 
         public class ListBoxItemM
         {
-            public string ID { get; set; }
-
+  
             public string Text { get; set; }
+
+            public string Name { get; set; }
+             
         }
     }
 }

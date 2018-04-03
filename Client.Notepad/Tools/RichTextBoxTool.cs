@@ -59,6 +59,67 @@ namespace Client.Notepad.Tools
             }
         }
 
+        private static string _pathCacheVisible;
+        /// <summary>
+        /// 缓存路径--显示
+        /// </summary>
+        public static string PathCacheVisible
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_pathCacheVisible))
+                {
+                    _pathCacheVisible = PathCache + "Visible\\"; //
+                    if (!Directory.Exists(_pathCacheVisible))
+                    {
+                        Directory.CreateDirectory(_pathCacheVisible);
+                    }
+                }
+                return _pathCacheVisible;
+            }
+        }
+
+        private static string _pathCacheHidden;
+        /// <summary>
+        /// 缓存路径--隐藏
+        /// </summary>
+        public static string PathCacheHidden
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_pathCacheHidden))
+                {
+                    _pathCacheHidden = PathCache + "Hidden\\"; //
+                    if (!Directory.Exists(_pathCacheHidden))
+                    {
+                        Directory.CreateDirectory(_pathCacheHidden);
+                    }
+                }
+                return _pathCacheHidden;
+            }
+        }
+
+        private static string _pathCacheDelete;
+        /// <summary>
+        /// 缓存路径--删除
+        /// </summary>
+        public static string PathCacheDelete
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_pathCacheDelete))
+                {
+                    _pathCacheDelete = PathCache + "Delete\\"; //
+                    if (!Directory.Exists(_pathCacheDelete))
+                    {
+                        Directory.CreateDirectory(_pathCacheDelete);
+                    }
+                }
+                return _pathCacheDelete;
+            }
+        }
+
+
         private static string _windowSetingFileName;
 
         public static string WindowSetingFileName
@@ -215,6 +276,39 @@ namespace Client.Notepad.Tools
         }
 
         /// <summary>
+        /// 从本地文件读取
+        /// </summary>
+        /// <param name="pathFile"></param>
+        public static FlowDocument Read( string pathFile)
+        {
+            string xw = File.ReadAllText(pathFile, Encoding.UTF8);
+
+            StringReader sr = new StringReader(xw);
+            XmlReader xr = XmlReader.Create(sr);
+           return (FlowDocument)XamlReader.Load(xr);
+        }
+
+        /// <summary>
+        /// 从本地文件读取
+        /// </summary>
+        /// <param name="pathFile"></param>
+        public static string StringFromFlowDocument(string pathFile)
+        {
+            FlowDocument flow = Read(pathFile);
+
+            TextRange textRange = new TextRange(
+               // TextPointer to the start of content in the RichTextBox.
+                flow.ContentStart,
+                // TextPointer to the end of content in the RichTextBox.
+                flow.ContentEnd
+            );
+
+            // The Text property on a TextRange object returns a string
+            // representing the plain text content of the TextRange.
+            return textRange.Text;
+        }
+
+        /// <summary>
         /// 添加扩展名
         /// todo:添加后缀过度代码
         /// </summary>
@@ -314,7 +408,7 @@ namespace Client.Notepad.Tools
         //}
 
         #endregion
-            
+
         //其它方法------------------------------------
 
         #region 其它方法

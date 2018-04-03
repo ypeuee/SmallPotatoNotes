@@ -113,10 +113,10 @@ namespace Client.Notepad.Tools
         /// </summary>
         public DateTime? RemindDateTime { get; set; }
 
-        /// <summary>
-        /// true隐藏 false显示
-        /// </summary>
-        public NotepadState NotepadState { get; set; }
+        ///// <summary>
+        ///// true隐藏 false显示
+        ///// </summary>
+        //public NotepadState NotepadState { get; set; }
     }
 
     /// <summary>
@@ -133,11 +133,6 @@ namespace Client.Notepad.Tools
         /// 不显示元素，但为元素保留布局空间。
         /// </summary>
         Hidden = 1,
-
-        /// <summary>
-        /// 不显示元素，且不为其保留布局空间。
-        /// </summary>
-        Collapsed = 2,
 
         /// <summary>
         /// 删除中，已经到回收站

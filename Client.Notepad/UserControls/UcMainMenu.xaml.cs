@@ -39,8 +39,8 @@ namespace FineEx.Cloud.ClientApp.UserControls
                     case "头像":
                         enumMainMenu = EnumMainMenu.Avatar;
                         break;
-                    case "电子秤":
-                        enumMainMenu = EnumMainMenu.WeightMeter;
+                    case "管理":
+                        enumMainMenu = EnumMainMenu.Manage;
                         break;
                     case "视频":
                         enumMainMenu = EnumMainMenu.Video;
