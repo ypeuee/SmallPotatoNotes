@@ -279,13 +279,13 @@ namespace Client.Notepad.Tools
         /// 从本地文件读取
         /// </summary>
         /// <param name="pathFile"></param>
-        public static FlowDocument Read( string pathFile)
+        public static FlowDocument Read(string pathFile)
         {
             string xw = File.ReadAllText(pathFile, Encoding.UTF8);
 
             StringReader sr = new StringReader(xw);
             XmlReader xr = XmlReader.Create(sr);
-           return (FlowDocument)XamlReader.Load(xr);
+            return (FlowDocument)XamlReader.Load(xr);
         }
 
         /// <summary>
@@ -297,7 +297,7 @@ namespace Client.Notepad.Tools
             FlowDocument flow = Read(pathFile);
 
             TextRange textRange = new TextRange(
-               // TextPointer to the start of content in the RichTextBox.
+                // TextPointer to the start of content in the RichTextBox.
                 flow.ContentStart,
                 // TextPointer to the end of content in the RichTextBox.
                 flow.ContentEnd
@@ -323,9 +323,22 @@ namespace Client.Notepad.Tools
                 {
                     if (File.Exists(f.FullName + SystemCommon.Extension))
                     {
+                        f.Delete();
                         continue;
                     }
                     f.MoveTo(Path.Combine(f.FullName + SystemCommon.Extension));
+                }
+            }
+            //Directory.GetFiles(RichTextBoxTool.PathCacheVisible, SystemCommon.SearchExtensionName);
+
+            foreach (FileInfo f in directory.GetFiles())
+            {
+                if (f.Name == WindowSetingFileName)
+                    continue;
+
+                if (f.Extension == SystemCommon.Extension)
+                {
+                    f.MoveTo(Path.Combine(RichTextBoxTool.PathCacheVisible + f.Name));
                 }
             }
         }
