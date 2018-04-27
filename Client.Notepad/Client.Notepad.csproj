@@ -97,6 +97,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BaseClass.cs" />
+    <Compile Include="Class2.cs" />
     <Compile Include="Tools\Class1.cs" />
     <Compile Include="NotesManage.cs" />
     <Compile Include="Tools\SkinManage.cs" />

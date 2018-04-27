@@ -60,7 +60,7 @@ namespace Client.Notepad
             this.Exit += (sender, e1) =>
             {
                 //早于AppDomain.CurrentDomain.ProcessExit
-
+                ToolLogs.Error(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "在进程退出时发生Exit");
                 ////不能在这保存所有便签设置，因为这时所有的程序已经全部关闭。
                 // NotepadManage.SaveSetings();
                 //e1.ApplicationExitCode

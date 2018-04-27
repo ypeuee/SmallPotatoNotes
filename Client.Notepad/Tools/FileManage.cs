@@ -64,7 +64,7 @@ namespace Client.Notepad.Tools
         }
 
         #endregion
-        
+
         #region 窗体关闭事件，启动主程序
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Client.Notepad.Tools
         /// </summary>
         public static void StartMainApplication()
         {
-            SystemCommon.ExitSystem(); // 终止此进程并为基础操作系统提供指定的退出代码。
+
 
             string currentPath = AppDomain.CurrentDomain.BaseDirectory;
             string iisBinPath = AppDomain.CurrentDomain.RelativeSearchPath;
@@ -89,6 +89,8 @@ namespace Client.Notepad.Tools
                 Process pr = new Process();
                 pr.StartInfo.FileName = Path.Combine(loadPath, runApplication);
                 pr.Start(); //运行
+
+                Environment.Exit(0); // 终止此进程并为基础操作系统提供指定的退出代码。
             }
             catch (Exception ex)
             {
@@ -98,7 +100,7 @@ namespace Client.Notepad.Tools
                 return;
             }
 
-          
+
         }
 
         #endregion
