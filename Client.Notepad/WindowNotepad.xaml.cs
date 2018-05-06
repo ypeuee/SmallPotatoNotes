@@ -456,7 +456,16 @@ namespace Client.Notepad
         {
             new WindowNotesManage().ShowDialog();
         }
-
+        /// <summary>
+        /// 反馈
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemFeedback_OnClick(object sender, RoutedEventArgs e)
+        {
+            new WinFeedback().ShowDialog();
+        }
+        
         /// <summary>
         /// 系统设置
         /// </summary>

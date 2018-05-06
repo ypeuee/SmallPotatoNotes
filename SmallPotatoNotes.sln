@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client.Notepad", "Client.Notepad\Client.Notepad.csproj", "{A9BAFB61-3157-46AA-909A-B512F94E5A64}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YPM.Message", "YPM.Message\YPM.Message.csproj", "{94C3BF03-E399-4349-A928-045DFBE5E3E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YPC.Message", "YPC.Message\YPC.Message.csproj", "{C634F8FA-FF94-40FF-913C-76FB92F0E514}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{A9BAFB61-3157-46AA-909A-B512F94E5A64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9BAFB61-3157-46AA-909A-B512F94E5A64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9BAFB61-3157-46AA-909A-B512F94E5A64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94C3BF03-E399-4349-A928-045DFBE5E3E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94C3BF03-E399-4349-A928-045DFBE5E3E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94C3BF03-E399-4349-A928-045DFBE5E3E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94C3BF03-E399-4349-A928-045DFBE5E3E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C634F8FA-FF94-40FF-913C-76FB92F0E514}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C634F8FA-FF94-40FF-913C-76FB92F0E514}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C634F8FA-FF94-40FF-913C-76FB92F0E514}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C634F8FA-FF94-40FF-913C-76FB92F0E514}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

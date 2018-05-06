@@ -1,9 +1,12 @@
 ﻿using Client.Notepad.Tools;
+using Client.Pub.ServiceProxyFactoryLib;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using YpeuEe.PublicContract.Message;
 
 namespace Client.Notepad
 {
@@ -12,6 +15,8 @@ namespace Client.Notepad
     /// </summary>
     public partial class App : Application
     {
+        private bool _isExit = true;
+
         public App()
         {
             #region 程序退出异常处理
@@ -49,8 +54,8 @@ namespace Client.Notepad
                MessageBox.Show("我们很抱歉，当前应用程序遇到一些问题，该操作已经终止,将要重新启动。" + e1.Exception.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);//这里通常需要给用户一些较为友好的提示，并且后续可能的操作
 
 
-               //保存所有便签设置
-               NotepadManage.SaveSetings();
+               ////保存所有便签设置
+               //NotepadManage.SaveSetings();
 
                //不要在这打开程序，如果你的程序是刚打开时出现错误，用户将无法关闭。这将是用户的恶梦。
                SystemCommon.ExitSystem();
@@ -64,9 +69,50 @@ namespace Client.Notepad
                 ////不能在这保存所有便签设置，因为这时所有的程序已经全部关闭。
                 // NotepadManage.SaveSetings();
                 //e1.ApplicationExitCode
+
+                IMessage iMessage = SPF.Create<IMessage>("YpeuEe.ServerService.Message.SMessage", RCT.NoneMode, SMessageCallback.MessageCallback);
+                _isExit = false;
+                try
+                {
+                    iMessage.Exit(SystemCommon.UserInfo);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    //throw;
+                }
             };
 
             #endregion
+
+
+
+            Task task1 = new Task(() =>
+            {
+                try
+                {
+                    ComputerManage.Init();
+                    //MessageBox.Show("111111111");
+                    //MessageBox.Show(ComputerManage.Computer.ComputerId);
+                    //MessageBox.Show(ComputerManage.Computer.Mac);
+                
+                    Class2.Logig();
+                    IMessage iMessage = SPF.Create<IMessage>("YpeuEe.ServerService.Message.SMessage", RCT.NoneMode, SMessageCallback.MessageCallback);
+                    do
+                    {
+                        iMessage.SetCallback(SystemCommon.UserInfo);
+
+                        Thread.Sleep(180000);
+                    } while (_isExit);
+
+                }
+                catch (Exception e)
+                {
+                    //MessageBox.Show(e.Message);
+                }
+              
+            });
+            task1.Start();
 
             bool result = ImputCacheFile();
 

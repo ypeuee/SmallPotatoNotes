@@ -1,4 +1,5 @@
 ﻿using System;
+using YpeuEe.PublicModel.Message;
 
 namespace Client.Notepad.Tools
 {
@@ -7,6 +8,11 @@ namespace Client.Notepad.Tools
     /// </summary>
     class SystemCommon
     {
+        /// <summary>
+        /// 用户信息
+        /// </summary>
+        internal static MUserInfo UserInfo { get; set; }
+
         private static string _systemName;
         /// <summary>
         /// 系统的名称

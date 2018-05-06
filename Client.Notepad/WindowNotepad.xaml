@@ -96,6 +96,11 @@
                     <Image Source="Images/管理2.png" Stretch="Fill" Width="20" Height="20"/>
                 </MenuItem.Icon>
             </MenuItem>
+            <MenuItem Header="反馈" Tag="反馈" Click="MenuItemFeedback_OnClick">
+                <MenuItem.Icon>
+                    <Image Source="Images/意见反馈.png" Stretch="Fill" Width="20" Height="20"/>
+                </MenuItem.Icon>
+            </MenuItem>
             <MenuItem Header="检查更新" Tag="检查更新" Click="MenuItemUpdate_OnClick">
                 <MenuItem.Icon>
                     <Image Source="Images/更新.png" Stretch="Fill" Width="20" Height="20"/>

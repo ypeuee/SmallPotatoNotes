@@ -90,6 +90,18 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="YpeuEe.Frame.ServiceManage, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\YpeuEe.BiBi\Quote\YpeuEe.Frame.ServiceManage.dll</HintPath>
+    </Reference>
+    <Reference Include="YpeuEe.Frame.ServiceModel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\YpeuEe.BiBi\Quote\YpeuEe.Frame.ServiceModel.dll</HintPath>
+    </Reference>
+    <Reference Include="YpeuEe.Frame.SingleFunction, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\YpeuEe.Frame.SingleFunction.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -150,6 +162,9 @@
     </Compile>
     <Compile Include="Tools\WindowsTool.cs" />
     <Compile Include="Tools\XMLSerializer.cs" />
+    <Compile Include="WinFeedback.xaml.cs">
+      <DependentUpon>WinFeedback.xaml</DependentUpon>
+    </Compile>
     <Page Include="StyleDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -218,6 +233,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="WinFeedback.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -233,6 +252,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Images\意见反馈.png" />
     <Resource Include="Images\管理2.png" />
     <Resource Include="Images\管理1.png" />
     <Resource Include="Images\删除.png" />
@@ -364,7 +384,16 @@
   <ItemGroup>
     <Resource Include="Images\educational.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\YPC.Message\YPC.Message.csproj">
+      <Project>{c634f8fa-ff94-40ff-913c-76fb92f0e514}</Project>
+      <Name>YPC.Message</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YPM.Message\YPM.Message.csproj">
+      <Project>{94c3bf03-e399-4349-a928-045dfbe5e3e1}</Project>
+      <Name>YPM.Message</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
